@@ -3,18 +3,12 @@ package progfun.spring.data.domain;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Date;
 
 @Entity
 @Table(name = "reviews")
-public class Review {
-
-    @Id
-    @GeneratedValue
-    private Long id;
+public class Review extends AbstractEntity {
 
     private String user;
 
@@ -23,11 +17,7 @@ public class Review {
     @Enumerated(EnumType.ORDINAL)
     private Rate rate;
 
-    private Date date;
-
-    public Long getId() {
-        return id;
-    }
+    private Date created;
 
     public String getUser() {
         return user;
@@ -53,12 +43,12 @@ public class Review {
         this.rate = rate;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getCreated() {
+        return created;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setCreated(Date created) {
+        this.created = created;
     }
 }
 

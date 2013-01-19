@@ -1,14 +1,15 @@
 package progfun.spring.data.repository;
 
 
-import progfun.spring.data.domain.Address;
-import progfun.spring.data.domain.Restaurant;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
+import progfun.spring.data.domain.Address;
+import progfun.spring.data.domain.Restaurant;
+import progfun.spring.data.domain.Website;
 
 import java.util.List;
 
@@ -42,8 +43,8 @@ public class JpaRestaurantRepositoryTest {
 
     @Test
     public void testFindByName() {
-        Restaurant restaurant = repository.findByName("Le connaisseur");
-        assertThat(restaurant.getWebsite(), is(equalTo("http://www.leconnaisseur.nl")));
+        Restaurant restaurant = repository.findByName("le connaisseur");
+        assertThat(restaurant.getName(), is(equalTo("Le Connaisseur")));
     }
 
     @Test
@@ -52,7 +53,7 @@ public class JpaRestaurantRepositoryTest {
     public void testPersist() {
         Restaurant restaurant = new Restaurant();
         restaurant.setName("Ledig Erf");
-        restaurant.setWebsite("http://www.ledigerf.nl");
+        restaurant.setWebsite(new Website("http://www.ledigerf.nl"));
         Address address = new Address("Tolsteegbrug", "3", "3511 ZN", "Utrecht");
         restaurant.setAddress(address);
 

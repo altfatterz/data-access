@@ -2,17 +2,14 @@ package progfun.spring.data.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * An address.
+ */
 @Entity
 @Table(name = "addresses")
-public class Address {
-
-    @Id
-    @GeneratedValue
-    private Long id;
+public class Address extends AbstractEntity {
 
     @Column(name = "street_name")
     private String streetName;
@@ -23,9 +20,6 @@ public class Address {
     private String postcode;
     private String city;
 
-    public Address() {
-    }
-
     public Address(String streetName, String streetNumber, String postcode, String city) {
         this.streetName = streetName;
         this.streetNumber = streetNumber;
@@ -33,8 +27,7 @@ public class Address {
         this.city = city;
     }
 
-    public Long getId() {
-        return id;
+    protected Address() {
     }
 
     public String getStreetName() {

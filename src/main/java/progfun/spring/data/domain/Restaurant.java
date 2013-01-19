@@ -1,9 +1,8 @@
 package progfun.spring.data.domain;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -11,34 +10,32 @@ import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A Restaurant.
+ */
 @Entity
 @Table(name = "restaurants")
-public class Restaurant {
-
-    @Id
-    @GeneratedValue
-    private Long id;
+public class Restaurant extends AbstractEntity {
 
     private String name;
 
-    private String website;
+    @Column(unique = true)
+    private Website website;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
     private Address address;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "restaurant_id")
     // using @JoinColumn to create a unidirectional one-to-many mapping without a join table.
     // this is an added feature in JPA 2.0
+    // when one review is removed from the restaurant, the removed review is considered an orphan.
+    // if orphanRemoval is set to true, the review will be deleted when the review is removed from the order.
     private List<Review> reviews;
 
     public Restaurant() {
         reviews = new ArrayList<Review>();
-    }
-
-    public Long getId() {
-        return id;
     }
 
     public String getName() {
@@ -57,11 +54,11 @@ public class Restaurant {
         this.address = address;
     }
 
-    public String getWebsite() {
+    public Website getWebsite() {
         return website;
     }
 
-    public void setWebsite(String website) {
+    public void setWebsite(Website website) {
         this.website = website;
     }
 

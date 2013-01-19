@@ -12,7 +12,7 @@ INSERT INTO restaurants (id, name, website, address_id) VALUES
 INSERT INTO restaurants (id, name, website, address_id) VALUES
 (102, 'Cafe Olivier', 'http://www.cafe-olivier.be', 1002);
 
-INSERT INTO reviews (id, restaurant_id, user, description, rate, date) VALUES
+INSERT INTO reviews (id, restaurant_id, user, description, rate, created) VALUES
 (10, 102, 'Thomas', 'Too noisy. Not cheap. Unique decoration/atmosphere', 2, '2013-01-17');
-INSERT INTO reviews (id, restaurant_id, user, description, rate, date) VALUES
+INSERT INTO reviews (id, restaurant_id, user, description, rate, created) VALUES
 (11, 102, 'Christian', 'Awesome! High recommended', 3, '2013-01-12');
