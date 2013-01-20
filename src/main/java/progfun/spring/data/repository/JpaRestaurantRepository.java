@@ -31,6 +31,7 @@ public class JpaRestaurantRepository implements RestaurantRepository {
         return query.getSingleResult();
     }
 
+    @Override
     public List<Restaurant> findAll() {
         return em.createQuery("from Restaurant", Restaurant.class).getResultList();
     }

@@ -2,11 +2,8 @@ package progfun.spring.data.repository;
 
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Transactional;
 import progfun.spring.data.domain.Address;
 import progfun.spring.data.domain.Restaurant;
 import progfun.spring.data.domain.Website;
@@ -19,16 +16,13 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 
-@RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:app-context.xml"})
-public class JpaRestaurantRepositoryTest {
+public class JpaRestaurantRepositoryTest extends AbstractTest {
 
     @Autowired
     private JpaRestaurantRepository repository;
 
     @Test
-    @Transactional
-    // without @Transactional fetching the reviews throws org.hibernate.LazyInitializationException
     public void testFindById() {
         Restaurant restaurant = repository.findOne(102L);
         assertThat(restaurant.getName(), is(equalTo("Cafe Olivier")));
@@ -42,15 +36,13 @@ public class JpaRestaurantRepositoryTest {
     }
 
     @Test
-    public void testFindByWebsite() {
+    public void testFindResturantByWebsite() {
         Restaurant restaurant = repository.findByWebsite(new Website("http://www.leconnaisseur.nl"));
         assertThat(restaurant.getName(), is(equalTo("Le Connaisseur")));
     }
 
     @Test
-    @Transactional
-    // without @Transactional it is not persisted
-    public void testPersist() {
+    public void testSaveRestaurant() {
         Restaurant restaurant = new Restaurant();
         restaurant.setName("Ledig Erf");
         restaurant.setWebsite(new Website("http://www.ledigerf.nl"));
