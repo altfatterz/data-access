@@ -4,6 +4,7 @@ import progfun.spring.data.domain.Restaurant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
+import progfun.spring.data.domain.Website;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -19,19 +20,19 @@ public class JpaRestaurantRepository implements RestaurantRepository {
     private EntityManager em;
 
     @Override
-    public Restaurant findById(Long id) {
+    public Restaurant findOne(Long id) {
         return em.find(Restaurant.class, id);
+    }
+
+    @Override
+    public Restaurant findByWebsite(Website website) {
+        TypedQuery<Restaurant> query = em.createQuery("from Restaurant where website like :website", Restaurant.class);
+        query.setParameter("website", website);
+        return query.getSingleResult();
     }
 
     public List<Restaurant> findAll() {
         return em.createQuery("from Restaurant", Restaurant.class).getResultList();
-    }
-
-    @Override
-    public Restaurant findByName(String name) {
-        TypedQuery<Restaurant> query = em.createQuery("from Restaurant where lower(name) like :name", Restaurant.class);
-        query.setParameter("name", name.toLowerCase());
-        return query.getSingleResult();
     }
 
     @Override

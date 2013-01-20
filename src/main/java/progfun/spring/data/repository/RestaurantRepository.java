@@ -1,14 +1,15 @@
 package progfun.spring.data.repository;
 
 import progfun.spring.data.domain.Restaurant;
+import progfun.spring.data.domain.Website;
 
 import java.util.List;
 
 public interface RestaurantRepository {
 
-    Restaurant findById(Long id);
+    Restaurant findOne(Long id);
 
-    Restaurant findByName(String name);
+    Restaurant findByWebsite(Website website);
 
     public List<Restaurant> findAll();
 

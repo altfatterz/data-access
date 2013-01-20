@@ -30,7 +30,7 @@ public class JpaRestaurantRepositoryTest {
     @Transactional
     // without @Transactional fetching the reviews throws org.hibernate.LazyInitializationException
     public void testFindById() {
-        Restaurant restaurant = repository.findById(102L);
+        Restaurant restaurant = repository.findOne(102L);
         assertThat(restaurant.getName(), is(equalTo("Cafe Olivier")));
         assertThat(restaurant.getReviews().size(), is(equalTo(2)));
     }
@@ -42,8 +42,8 @@ public class JpaRestaurantRepositoryTest {
     }
 
     @Test
-    public void testFindByName() {
-        Restaurant restaurant = repository.findByName("le connaisseur");
+    public void testFindByWebsite() {
+        Restaurant restaurant = repository.findByWebsite(new Website("http://www.leconnaisseur.nl"));
         assertThat(restaurant.getName(), is(equalTo("Le Connaisseur")));
     }
 
