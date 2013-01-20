@@ -1,9 +1,9 @@
 package progfun.spring.data.repository;
 
-import progfun.spring.data.domain.Restaurant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
+import progfun.spring.data.domain.Restaurant;
 import progfun.spring.data.domain.Website;
 
 import javax.persistence.EntityManager;
