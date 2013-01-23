@@ -48,4 +48,32 @@ public class JpaRestaurantRepository implements RestaurantRepository {
         }
     }
 
+    @Override
+    public boolean exists(Long id) {
+        return findOne(id) != null;
+    }
+
+    @Override
+    public long count() {
+        TypedQuery<Long> query = em.createQuery("select count(*) from Restaurant", Long.class);
+        return query.getSingleResult();
+    }
+
+    @Override
+    public void delete(Long id) {
+        delete(findOne(id));
+    }
+
+    @Override
+    public void delete(Restaurant restaurant) {
+        em.remove(restaurant);
+    }
+
+    @Override
+    public void deleteAll() {
+        for(Restaurant restaurant : findAll()) {
+            delete(restaurant);
+        }
+    }
+
 }

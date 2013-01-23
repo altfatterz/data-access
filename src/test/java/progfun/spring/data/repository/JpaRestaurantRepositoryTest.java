@@ -42,6 +42,38 @@ public class JpaRestaurantRepositoryTest extends AbstractTest {
     }
 
     @Test
+    public void testExists() {
+        assertThat(repository.exists(102L), is(equalTo(true)));
+        assertThat(repository.exists(202L), is(equalTo(false)));
+    }
+
+    @Test
+    public void testCount() throws Exception {
+        assertThat(repository.count(), is(equalTo(3L)));
+    }
+
+    @Test
+    public void testDeleteById() throws Exception {
+        assertThat(repository.count(), is(equalTo(3L)));
+        repository.delete(102L);
+        assertThat(repository.count(), is(equalTo(2L)));
+    }
+
+    @Test
+    public void testDelete() throws Exception {
+        assertThat(repository.count(), is(equalTo(3L)));
+        repository.delete(repository.findOne(102L));
+        assertThat(repository.count(), is(equalTo(2L)));
+    }
+
+    @Test
+    public void testDeleteAll() throws Exception {
+        assertThat(repository.count(), is(equalTo(3L)));
+        repository.deleteAll();
+        assertThat(repository.count(), is(equalTo(0L)));
+    }
+
+    @Test
     public void testSaveRestaurant() {
         Restaurant restaurant = new Restaurant();
         restaurant.setName("Ledig Erf");

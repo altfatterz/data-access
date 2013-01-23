@@ -11,7 +11,17 @@ public interface RestaurantRepository {
 
     Restaurant findByWebsite(Website website);
 
-    public List<Restaurant> findAll();
+    List<Restaurant> findAll();
 
-    public Restaurant save(Restaurant restaurant);
+    Restaurant save(Restaurant restaurant);
+
+    boolean exists(Long id);
+
+    long count();
+
+    void delete(Long id);
+
+    void delete(Restaurant restaurant);
+
+    void deleteAll();
 }
