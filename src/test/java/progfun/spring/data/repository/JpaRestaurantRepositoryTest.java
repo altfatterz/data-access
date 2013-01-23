@@ -16,7 +16,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 
-@ContextConfiguration(locations = {"classpath:app-context.xml"})
+@ContextConfiguration(locations = {"classpath:app-test-context.xml"})
 public class JpaRestaurantRepositoryTest extends AbstractTest {
 
     @Autowired
