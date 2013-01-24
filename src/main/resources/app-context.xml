@@ -5,9 +5,6 @@
        xmlns:tx="http://www.springframework.org/schema/task"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd">
 
-    <!-- Enable component scanning for Spring components (@Service, @Repository, etc) -->
-    <context:component-scan base-package="progfun.spring.data.repository"/>
-
     <!-- activate annotation-based transaction management configuration (@Transactional) -->
     <tx:annotation-driven/>
 

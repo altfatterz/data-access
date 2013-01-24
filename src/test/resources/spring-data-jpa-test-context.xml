@@ -13,6 +13,8 @@
     </jdbc:embedded-database>
 
     <!-- activates JPA repositories -->
-    <jpa:repositories base-package="progfun.spring.data.repository"/>
+    <beans profile="spring-data-jpa">
+        <jpa:repositories base-package="progfun.spring.data.repository"/>
+    </beans>
 
 </beans>

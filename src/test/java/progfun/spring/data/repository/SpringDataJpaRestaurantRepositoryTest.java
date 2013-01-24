@@ -1,7 +1,10 @@
 package progfun.spring.data.repository;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import progfun.spring.data.domain.Address;
 import progfun.spring.data.domain.Restaurant;
@@ -15,11 +18,13 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 
-@ContextConfiguration(locations = {"classpath:app2-test-context.xml"})
-public class EnhancedRestaurantRepositoryTest extends AbstractTest{
+@ContextConfiguration(locations = {"classpath:spring-data-jpa-test-context.xml"})
+@ActiveProfiles(profiles = "spring-data-jpa")
+@Ignore
+public class SpringDataJpaRestaurantRepositoryTest {
 
     @Autowired
-    EnhancedRestaurantRepository repository;
+    private RestaurantRepository repository;
 
     @Test
     public void testFindById() {
@@ -41,6 +46,38 @@ public class EnhancedRestaurantRepositoryTest extends AbstractTest{
     }
 
     @Test
+    public void testExists() {
+        assertThat(repository.exists(102L), is(equalTo(true)));
+        assertThat(repository.exists(202L), is(equalTo(false)));
+    }
+
+    @Test
+    public void testCount() throws Exception {
+        assertThat(repository.count(), is(equalTo(3L)));
+    }
+
+    @Test
+    public void testDeleteById() throws Exception {
+        assertThat(repository.count(), is(equalTo(3L)));
+        repository.delete(102L);
+        assertThat(repository.count(), is(equalTo(2L)));
+    }
+
+    @Test
+    public void testDelete() throws Exception {
+        assertThat(repository.count(), is(equalTo(3L)));
+        repository.delete(repository.findOne(102L));
+        assertThat(repository.count(), is(equalTo(2L)));
+    }
+
+    @Test
+    public void testDeleteAll() throws Exception {
+        assertThat(repository.count(), is(equalTo(3L)));
+        repository.deleteAll();
+        assertThat(repository.count(), is(equalTo(0L)));
+    }
+
+    @Test
     public void testSaveRestaurant() {
         Restaurant restaurant = new Restaurant();
         restaurant.setName("Ledig Erf");
@@ -52,7 +89,5 @@ public class EnhancedRestaurantRepositoryTest extends AbstractTest{
 
         assertThat(restaurant.getId(), is(not(nullValue())));
     }
-
-
 
 }
