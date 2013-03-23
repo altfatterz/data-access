@@ -33,7 +33,25 @@
 
     </beans>
 
+    <beans profile="jpa">
+        <!--
+            Will automatically be transactional due to @Transactional.
+            EntityManager will be auto-injected due to @PersistenceContext.
+            PersistenceExceptions will be auto-translated due to @Repository.
+        -->
+        <context:component-scan base-package="progfun.spring.data.repository.jpa"/>
+
+        <!--
+            Exception translation bean post processor.
+            Translates from persistence technology's native exception classes such as HibernateException,
+            PersistenceException or JDOException to Spring's DataAccessException hierarchy.
+        -->
+        <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
+    </beans>
+
+
     <beans profile="spring-data-jpa">
+        <!-- PersistenceExceptionTranslationPostProcessor is implicitly registered -->
         <jpa:repositories base-package="progfun.spring.data.repository.springdatajpa"/>
     </beans>
 
