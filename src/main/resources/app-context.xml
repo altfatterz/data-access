@@ -2,31 +2,40 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:tx="http://www.springframework.org/schema/task"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+       xmlns:tx="http://www.springframework.org/schema/task" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
     <!-- activate annotation-based transaction management configuration (@Transactional) -->
     <tx:annotation-driven/>
 
-    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-        <property name="entityManagerFactory" ref="emf"/>
-    </bean>
+    <beans profile="jpa,spring-data-jpa">
 
-    <bean id="emf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-        <property name="dataSource" ref="dataSource"/>
-        <property name="jpaVendorAdapter">
-            <!-- using Hibernate as persistence provider -->
-            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
-                <property name="database" value="H2"/>
-            </bean>
-        </property>
-        <!-- Spring 3.1 feature setting up JPA without persitence.xml.
-             This will trigger Spring to scan for classes annotated with @Entity and @MappedSuperclass
-             and automatically add those to the JPA PersistenceUnit.
-        -->
-        <property name="packagesToScan" value="progfun.spring.data.domain"/>
-    </bean>
+        <bean id="emf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+            <property name="dataSource" ref="dataSource"/>
+            <property name="jpaVendorAdapter">
+                <!-- using Hibernate as persistence provider -->
+                <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+                    <property name="database" value="H2"/>
+                </bean>
+            </property>
+            <!--
+            Spring 3.1 feature setting up JPA without persitence.xml.
+            This will trigger Spring to scan for classes annotated with @Entity and @MappedSuperclass
+            and automatically add those to the JPA PersistenceUnit.
+            -->
+            <property name="packagesToScan" value="progfun.spring.data.domain"/>
+        </bean>
 
+        <!-- Transaction manager for a single JPA EntityManagerFactory (alternative to JTA) -->
+        <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+            <property name="entityManagerFactory" ref="emf"/>
+        </bean>
+
+    </beans>
+
+    <beans profile="spring-data-jpa">
+        <jpa:repositories base-package="progfun.spring.data.repository.springdatajpa"/>
+    </beans>
 
 </beans>
 

@@ -1,12 +1,16 @@
-package progfun.spring.data.repository;
+package progfun.spring.data.repository.springdatajpa;
 
-
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import progfun.spring.data.domain.Address;
 import progfun.spring.data.domain.Restaurant;
 import progfun.spring.data.domain.Website;
+import progfun.spring.data.repository.AbstractTest;
+import progfun.spring.data.repository.RestaurantRepository;
 
 import java.util.List;
 
@@ -16,11 +20,12 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 
-@ContextConfiguration(locations = {"classpath:plain-jpa-test-context.xml"})
-public class JpaRestaurantRepositoryTest extends AbstractTest {
+@ContextConfiguration(locations = {"classpath:test-context.xml"})
+@ActiveProfiles(profiles = "spring-data-jpa")
+public class SpringDataJpaRestaurantRepositoryTest extends AbstractTest {
 
     @Autowired
-    private JpaRestaurantRepository repository;
+    private SpringDataRestaurantRepository repository;
 
     @Test
     public void testFindById() {
