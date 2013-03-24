@@ -96,6 +96,24 @@
         </dependency>
 
         <!-- **********************************************************************
+			 ** 				DBCP Connection Pooling 							         **
+			 ********************************************************************** -->
+        <dependency>
+            <groupId>commons-dbcp</groupId>
+            <artifactId>commons-dbcp</artifactId>
+            <version>1.4</version>
+        </dependency>
+
+        <!-- **********************************************************************
+			 ** 				MySQL Connector							         **
+			 ********************************************************************** -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.24</version>
+        </dependency>
+
+        <!-- **********************************************************************
 			 ** 				Google Guava library 							 **
 			 ********************************************************************** -->
         <dependency>
