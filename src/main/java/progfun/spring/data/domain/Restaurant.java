@@ -1,5 +1,7 @@
 package progfun.spring.data.domain;
 
+import com.google.common.base.Objects;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -68,5 +70,13 @@ public class Restaurant extends AbstractEntity {
 
     public void addReview(Review review) {
         reviews.add(review);
+    }
+
+    @Override
+    public String toString() {
+        return Objects.toStringHelper(getClass())
+                .add("name", name)
+                .add("website", website)
+                .toString();
     }
 }

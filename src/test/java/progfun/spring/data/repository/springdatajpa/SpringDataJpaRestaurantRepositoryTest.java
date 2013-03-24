@@ -1,10 +1,14 @@
 package progfun.spring.data.repository.springdatajpa;
 
+import org.hamcrest.CoreMatchers;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import progfun.spring.data.domain.Address;
@@ -20,6 +24,8 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
+import static org.springframework.data.domain.Sort.Direction;
+import static org.springframework.data.domain.Sort.Direction.*;
 
 @ContextConfiguration(locations = {"classpath:test-context.xml"})
 @ActiveProfiles(profiles = "spring-data-jpa")
@@ -96,4 +102,23 @@ public class SpringDataJpaRestaurantRepositoryTest extends AbstractTest {
     public void saveIncompleteData() {
         repository.save(new Restaurant());
     }
+
+    @Test
+    public void sort() {
+        List<Restaurant> restaurants = repository.findAll(new Sort(ASC, "name"));
+        assertThat(restaurants.get(0).getName(), is("Cafe Olivier"));
+        assertThat(restaurants.get(1).getName(), is("Le Connaisseur"));
+        assertThat(restaurants.get(2).getName(), is("Pothuys"));
+    }
+
+    @Test
+    public void page() {
+        Page<Restaurant> firstPageOfRestaurants = repository.findAll(new PageRequest(0, 2, new Sort(ASC, "name")));
+        List<Restaurant> restaurants = firstPageOfRestaurants.getContent();
+
+        assertThat(restaurants.get(0).getName(), is("Cafe Olivier"));
+        assertThat(restaurants.get(1).getName(), is("Le Connaisseur"));
+        assertThat(restaurants.size(), is(2));
+    }
+
 }
