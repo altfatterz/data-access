@@ -16,6 +16,7 @@ public class AbstractEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Version
     private int version;
 
     /*
@@ -59,7 +60,6 @@ public class AbstractEntity {
      *
      * @see http://docs.oracle.com/javaee/6/tutorial/doc/gkjhz.html
      */
-    @Version
     protected int getVersion() {
         return version;
     }
