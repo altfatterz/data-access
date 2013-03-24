@@ -3,6 +3,7 @@ package progfun.spring.data.client;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 import progfun.spring.data.domain.Address;
@@ -24,7 +25,6 @@ public class Main {
     private static void removeRestaurant() throws Exception {
 
         // removing of a restaurant cascades also to addresses and reviews tables
-
         TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
         try {
             Restaurant restaurant = repository.findByWebsite(new Website("http://www.ledigerf.nl"));
@@ -43,23 +43,21 @@ public class Main {
         System.out.println(one);
     }
 
-    // not sure why the version field is not incremented...
-    private static void optimisticLocking() throws Exception {
 
-        TransactionStatus status = transactionManager.getTransaction(new DefaultTransactionDefinition());
+    private static void updateRestaurant() throws Exception {
+        DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+        def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
+        TransactionStatus status = transactionManager.getTransaction(def);
 
         try {
             Restaurant restaurant = repository.findByWebsite(new Website("http://www.ledigerf.nl"));
-            restaurant.setName("Ledig Erf Updated");
-
+            restaurant.setName("Ledig Erf Updated!");
             repository.save(restaurant);
-
         } catch (Exception e) {
             transactionManager.rollback(status);
             throw e;
         }
         transactionManager.commit(status);
-
     }
 
     private static void addRestaurant() throws Exception {
@@ -89,13 +87,12 @@ public class Main {
         repository = context.getBean("jpaRestaurantRepository", RestaurantRepository.class);
         transactionManager = context.getBean("transactionManager", PlatformTransactionManager.class);
 
-        //searchRestaurant();
+//        searchRestaurant();
+//
+//        removeRestaurant();
+//
+//        addRestaurant();
 
-        //removeRestaurant();
-
-        //addRestaurant();
-
-        optimisticLocking();
 
     }
 }
